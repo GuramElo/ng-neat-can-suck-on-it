@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BehaviorSubject, map, startWith, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'decorators-test';
+  public readonly haha$: any = timer(0, 5000).pipe(map((num: number) => Boolean(num%2)))
 }
