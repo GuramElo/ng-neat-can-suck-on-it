@@ -15,8 +15,8 @@ interface DestroyBase {
   ngOnDestroy?: () => void;
   [key: string]: any
 }
-export function UntilDestroy(): ({ prototype }: {prototype: DestroyBase}) => void {
-  return ({ prototype: instance }: { prototype: DestroyBase }) => {
+export function DeathMark(): ({ prototype }: {prototype: DestroyBase}) => void {
+  return ({ prototype: instance }) => {
     //const instance: DestroyBase = prototype;
     const originalOnDestroy: () => void =
       (instance.ngOnDestroy)?.bind?.(instance) ?? (() => void 0);
@@ -41,7 +41,8 @@ export function UntilDestroy(): ({ prototype }: {prototype: DestroyBase}) => voi
     );
   };
 }
-export function takeUntilDestroyed<T = void>({___$destroyRef___}: DestroyBase): MonoTypeOperatorFunction<T> {
+export function letItGo<T = void>({___$destroyRef___}: DestroyBase): MonoTypeOperatorFunction<T> {
+  console.log('ramdenjer shemodis?')
   const notifier: ObservableInput<void> = ___$destroyRef___ ?? of(void 0);
   return operate((source, subscriber) => {
     innerFrom(notifier).subscribe(

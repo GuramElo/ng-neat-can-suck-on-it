@@ -1,9 +1,9 @@
 //====================================================================================
-import {takeUntilDestroyed, UntilDestroy} from "../../../decorators/ng-neaat-can-suck-on-this";
+import {DeathMark, letItGo} from "../../../decorators/ng-neat-can-suck-on-this";
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from "@angular/core";
 import {fromEvent, timer} from "rxjs";
-
-@UntilDestroy()
+// @DeathMark()
+@DeathMark()
 @Component({
   selector: 'app-hello',
   templateUrl: './hello.component.html',
@@ -15,14 +15,14 @@ export class HelloComponent implements OnInit, OnDestroy {
   pura123123: any = 'asdasdasdasdasd';
   fula$: any = timer(0, 1000)
     .pipe(
-      takeUntilDestroyed(this)
+      letItGo(this)
     )
     .subscribe((stat) => {
       console.log(stat, '000000000000000000000000000');
     });
   ngOnInit(): void {
     fromEvent(document, 'click').pipe(
-      takeUntilDestroyed(this)
+      letItGo(this)
     ).subscribe({
       next: (next: any) => {
         console.log(next, 'next')
