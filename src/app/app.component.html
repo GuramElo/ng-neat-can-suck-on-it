@@ -1,7 +1,13 @@
-<app-mother></app-mother>
+<app-mother
+[tut]="tut"
+></app-mother>
 <br/>
-<app-child1></app-child1>
 
+<ng-template #tut let-cv>
+    <app-child1 [hello]="cv"></app-child1>
+</ng-template>
+
+<!-- 
 <br/><br/><br/>
 
 <app-mother></app-mother>
@@ -13,4 +19,4 @@
 
 <app-mother></app-mother>
 <br/>
-<app-child3></app-child3>
+<app-child3></app-child3> -->
