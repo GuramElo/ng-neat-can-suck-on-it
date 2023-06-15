@@ -10,10 +10,11 @@ import {
 import { operate } from 'rxjs/internal/util/lift';
 import { createOperatorSubscriber } from 'rxjs/internal/operators/OperatorSubscriber';
 import { innerFrom } from 'rxjs/internal/observable/innerFrom';
+const destroyRefKey: symbol = Symbol('___$destroyRef___');
 interface DestroyBase {
-  ___$destroyRef___?: Observable<void>;
+  // [destroyRefKey]?: Observable<void>;
   ngOnDestroy?: () => void;
-  [key: string]: any
+  [key: string | symbol]: any;
 }
 export function DeathMark(): ({ prototype }: {prototype: DestroyBase}) => void {
   return ({ prototype: instance }) => {
@@ -31,7 +32,7 @@ export function DeathMark(): ({ prototype }: {prototype: DestroyBase}) => void {
     });
     Object.defineProperty<DestroyBase>(
       instance,
-      '___$destroyRef___',
+      destroyRefKey,
       {
         value: ___$destroyRef___.asObservable().pipe(take(1)),
         writable: false,
@@ -41,7 +42,7 @@ export function DeathMark(): ({ prototype }: {prototype: DestroyBase}) => void {
     );
   };
 }
-export function letItGo<T = void>({___$destroyRef___}: DestroyBase): MonoTypeOperatorFunction<T> {
+export function letItGo<T = void>({[destroyRefKey]: ___$destroyRef___}: DestroyBase): MonoTypeOperatorFunction<T> {
   console.log('ramdenjer shemodis?')
   const notifier: ObservableInput<void> = ___$destroyRef___ ?? of(void 0);
   return operate((source, subscriber) => {
